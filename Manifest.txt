@@ -1,0 +1,8 @@
+.autotest
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/stackrb
+lib/stackrb.rb
+test/test_stackrb.rb
