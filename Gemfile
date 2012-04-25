@@ -4,6 +4,8 @@
 
 source :gemcutter
 
+gem "httparty", ">=0"
+gem "fakeweb", ">=0"
 gem "rspec", ">=0"
 gem "pry", ">=0"
 

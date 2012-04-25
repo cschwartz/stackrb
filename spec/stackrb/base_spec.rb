@@ -1,5 +1,5 @@
-require_relative "../spec_helper.rb"
+require_relative "../spec_helper"
 
-describe StackRb::SpecRb do
+describe StackRb::StackRb do
 
 end

@@ -14,6 +14,10 @@ Hoe.plugin :bundler
 Hoe.spec 'stackrb' do
   developer('christian schwartz', 'christian.schwartz@gmail.com')
 
+  extra_deps << ['httparty']
+
+  extra_deps << ['fakeweb']
+  
   extra_deps << ['rspec']
   extra_deps << ['pry']
 end
