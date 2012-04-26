@@ -29,6 +29,26 @@ describe StackRb::StackRb do
       instance = TestClass.new hash
       instance.test.should == "Value"
     end
+
+    describe "should support types like" do
+      it "Time" do
+        class TestClass
+          include StackRb::StackRb
+
+          property :test_date do |timestamp| Time.at timestamp end
+          
+          def initialize(hash)
+            fill_properties(hash)
+          end
+
+        end
+
+        hash = { :test_date => 1295002457 }
+        instance = TestClass.new hash
+        instance.test_date.should == Time.at(hash[:test_date])
+      end
+    end
+    
   end
   
 end

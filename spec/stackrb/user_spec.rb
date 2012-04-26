@@ -42,8 +42,11 @@ describe StackRb::User do
         reputation = 311
         StackRb::User.find([user_id]).first.reputation.should == reputation
       end
-      
-      
+
+      it "should have the correct creation date" do
+        creation_date = Time.at 1295002457
+        StackRb::User.find([user_id]).first.creation_date.should == creation_date
+      end
     end
   end
   

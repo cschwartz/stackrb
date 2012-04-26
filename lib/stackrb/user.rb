@@ -9,6 +9,9 @@ module StackRb
 
     property :reputation
     property :display_name
+    property :creation_date do |timestamp|
+      Time.at timestamp
+    end
     
     def initialize(user_json)
       fill_properties(user_json)
@@ -19,9 +22,9 @@ module StackRb
         options[:site] ||= default_site
         ids_string = ids.join ";"
         body = get("/users/#{ ids_string }", :query => options)
-        users_json = JSON.parse body
+        users_json = JSON.parse body, :symbolize_names => true
         
-        users_json["items"].map { |user_json| User.new user_json }
+        users_json[:items].map { |user_json| User.new user_json }
       end
 
       def default_site
