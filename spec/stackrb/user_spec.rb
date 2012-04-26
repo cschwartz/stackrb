@@ -32,7 +32,6 @@ describe StackRb::User do
         end
         
       end
-      
 
       it "should have the correct display name" do
         display_name = "Christian Schwartz"

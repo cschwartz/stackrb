@@ -3,14 +3,15 @@ require "json"
 
 module StackRb
   class User
+    include StackRb
     include HTTParty
     base_uri "http://api.stackexchange.com/2.0"
 
-    attr_reader :display_name, :reputation
-
+    property :reputation
+    property :display_name
+    
     def initialize(user_json)
-      @display_name = user_json["display_name"]
-      @reputation = user_json["reputation"]
+      fill_properties(user_json)
     end
  
     class << self
