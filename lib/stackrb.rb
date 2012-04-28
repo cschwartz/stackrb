@@ -3,4 +3,5 @@ module StackRb
 end
 
 require "stackrb/base"
+require "stackrb/site"
 require "stackrb/user"
