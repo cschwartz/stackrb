@@ -12,26 +12,20 @@ module StackRb
     property :creation_date do |timestamp|
       Time.at timestamp
     end
-    
+
     def initialize(user_json)
       fill_properties(user_json)
     end
- 
+
     class << self
       def find(ids, options = {})
-        options[:site] ||= default_site
-        ids_string = ids.join ";"
-        body = get("/users/#{ ids_string }", :query => options)
-        users_json = JSON.parse body, :symbolize_names => true
-        
-        users_json[:items].map { |user_json| User.new user_json }
+        fetch User, "/users/%{user_list}", {:user_list => ids}, :site => default_site
       end
 
       def default_site
         default_site = "stackoverflow"
       end
+    end
 
-  end    
-    
   end
 end

@@ -5,6 +5,7 @@ $LOAD_PATH.unshift lib_path unless $LOAD_PATH.include?(lib_path)
 require "stackrb"
 
 require "fakeweb"
+require "fakeweb_matcher"
 FakeWeb.allow_net_connect = false
 
 require "pry"

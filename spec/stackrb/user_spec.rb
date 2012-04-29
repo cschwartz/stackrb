@@ -30,7 +30,6 @@ describe StackRb::User do
           user_ids = [user_id, other_user_id]
           StackRb::User.find(user_ids).should have(2).users
         end
-        
       end
 
       it "should have the correct display name" do
