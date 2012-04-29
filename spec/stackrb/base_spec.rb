@@ -55,7 +55,7 @@ describe StackRb::StackRb do
     describe "should GET data from the requested url" do
       it "with the correct base url" do
         source_url = "/tests"
-        full_url = "http://api.stackexchange.com#{source_url}" 
+        full_url = "http://api.stackexchange.com/2.0#{source_url}" 
         FakeWeb.register_uri :get, full_url, :body => '{"items": []}' 
         class RESTObject  
           include StackRb::StackRb
@@ -71,7 +71,7 @@ describe StackRb::StackRb do
       MyClass = double("MyClass")
       MyClass.should_receive(:new)
       MyClass.should_receive(:new)
-      FakeWeb.register_uri :get, "http://api.stackexchange.com#{source_url}", :body => json_content
+      FakeWeb.register_uri :get, "http://api.stackexchange.com/2.0#{source_url}", :body => json_content
       class RESTClass
         include StackRb::StackRb
       end
@@ -81,7 +81,7 @@ describe StackRb::StackRb do
     it "should correctly place arguments" do
       source_url = "/tests/%{user_ids}"
       user_ids = [123, 456]
-      full_url = "http://api.stackexchange.com#{source_url}" % {:user_ids => user_ids.join(";")}
+      full_url = "http://api.stackexchange.com/2.0#{source_url}" % {:user_ids => user_ids.join(";")}
       json_content = '{"items": [{}, {}]}'
       FakeWeb.register_uri :get, full_url, :body => json_content
       class RESTClass

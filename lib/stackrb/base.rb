@@ -1,5 +1,6 @@
 require "pry"
 require "httparty"
+require "json"
 
 module StackRb
   module StackRb
@@ -28,6 +29,7 @@ module StackRb
 
       def fetch(klass, uri, parameters = {}, query = {})
         query = nil if query.empty?
+        base_uri = "http://api.stackexchange.com/2.0"
         options = { :base_uri => base_uri,
           :query => query
         }
@@ -48,9 +50,6 @@ module StackRb
         }
       end
 
-      def base_uri
-        "http://api.stackexchange.com"
-      end
     end
   end
 end
