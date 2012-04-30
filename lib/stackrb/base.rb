@@ -6,7 +6,6 @@ module StackRb
   module StackRb
     def self.included(base)
       base.extend ClassMethods
-      base.extend HTTParty
       identity_function = Proc.new do |v|
           v
       end
@@ -28,28 +27,50 @@ module StackRb
       end
 
       def fetch(klass, uri, parameters = {}, query = {})
-        query = nil if query.empty?
-        base_uri = "http://api.stackexchange.com/2.0"
-        options = { :base_uri => base_uri,
-          :query => query
-        }
-        path = (uri % prepare_arguments(parameters))
+        json = request_objects_as_json(uri, parameters, query) 
+        create_instances(json, klass)
+      end
+
+      def request_objects_as_json(uri, parameters, query)
+        options = built_options query
+        path = built_path uri, parameters
         response = HTTParty.get path, options
-        json = JSON.parse response, :symbolize_names => true
+        JSON.parse response, :symbolize_names => true
+      end
+
+      def create_instances(json, klass)
         json[:items].map { |params| klass.new params }
+      end
+
+      def built_options(query)
+        options = default_options
+        options[:query] = query unless query.empty?
+
+        options
+      end
+
+      def built_path(uri, parameters)
+        uri % prepare_parameters(parameters)
       end
 
       def convert_variable(instance, name, value)
         value = @converters[name].call(value)
         instance.instance_variable_set "@#{name}", value
       end
-      
-      def prepare_arguments(parameters)
+
+      def prepare_parameters(parameters)
         parameters.each_with_object({}) { |(name, values), hash|
           hash[name] = values.join(";")
         }
       end
 
+      def default_options
+        { :base_uri => default_base_uri }
+      end
+
+      def default_base_uri
+        "http://api.stackexchange.com/2.0"
+      end
     end
   end
 end
