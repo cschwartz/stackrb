@@ -26,6 +26,7 @@ describe StackRb::User do
         end
 
         it "for 2 ids" do
+
           other_user_id = "12345"
           user_ids = [user_id, other_user_id]
           StackRb::User.find(user_ids).should have(2).users
@@ -46,7 +47,13 @@ describe StackRb::User do
         creation_date = Time.at 1295002457
         StackRb::User.find([user_id]).first.creation_date.should == creation_date
       end
+
+      it "should have the correct last access date" do
+        last_access_date =  Time.at 1335381283
+        StackRb::User.find([user_id]).first.last_access_date.should == last_access_date
+       
+      end
     end
   end
-  
 end
+

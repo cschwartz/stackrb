@@ -5,3 +5,5 @@ end
 require "stackrb/base"
 require "stackrb/site"
 require "stackrb/user"
+require "stackrb/badge"
+require "stackrb/badges"
