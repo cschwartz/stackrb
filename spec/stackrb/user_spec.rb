@@ -23,5 +23,11 @@ describe StackRb::User do
     it "should have the correct creation date" do
       subject.creation_date.should == Time.at(params[:creation_date])
     end
+
+    it "should have the correct last access date" do
+      last_access_date =  Time.at 1335381283
+      subject.last_access_date.should == Time.at(params[:last_access_date])
+    end
   end
 end
+
