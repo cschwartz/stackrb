@@ -13,7 +13,6 @@ module StackRb
 
     class << self
       def find(ids, options = {})
-        fetch User, "/users/%{user_list}", {:user_list => ids}, :site => default_site
       end
 
       def default_site

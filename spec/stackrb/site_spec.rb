@@ -1,30 +1,38 @@
 require_relative "../spec_helper"
 
 describe StackRb::Site do
-	it "should call UserObtainer with a correct 'site' parameter" do
-		UserObtainer = double("UserObtainer")
-		UserObtainer.should_receive(:new).with(:site => "stackoverflow")
-		StackRb::Site.new "stackoverflow", :user_obtainer => UserObtainer
-	end
+  describe "#find_users" do
+    describe "with valid id" do
+      let(:user_id) { 806689 }
+      subject { StackRb::Site.new "stackoverflow" }
+      it "should not return nil" do
+        subject.find_users([user_id]).should_not be_nil
+      end
 
-	describe "#find_users" do
-		it "should delegate to the UserObtainer#find" do
-			user_obtainer_instance = double("UserObtainer")
-			user_obtainer_instance.should_receive(:find).with([12345])
-			user_obtainer_klass = double("UserObtainer.class")
-			user_obtainer_klass.stub(:new).and_return(user_obtainer_instance)
-			site = StackRb::Site.new "stackoverflow", :user_obtainer => user_obtainer_klass
-			site.find_users([12345])
-		end
+      it "should not return invalid users" do
+        invalid_user_id = -4
+        subject.find_users([invalid_user_id]).should be_empty
+      end
 
-		it "should return the results returned by UserObtainer#find" do
-			user_list = []
-			user_obtainer_instance = double("UserObtainer")
-			user_obtainer_instance.should_receive(:find).and_return(user_list)
-			user_obtainer_klass = double("UserObtainer.class")
-			user_obtainer_klass.stub(:new).and_return(user_obtainer_instance)
-			site = StackRb::Site.new "stackoverflow", :user_obtainer => user_obtainer_klass
-			site.find_users([12345]).should == user_list
-		end
-	end
+      describe "should return as many valid users as specified" do
+        it "for 0 ids it should return the last 30 users" do
+          empty_set = []
+          subject.find_users(empty_set).should have(30).users
+        end
+
+        it "for 1 id" do
+          user_ids = [user_id]
+          subject.find_users(user_ids).should have(1).users
+        end
+
+        it "for 2 ids" do
+          other_user_id = "12345"
+          user_ids = [user_id, other_user_id]
+          subject.find_users(user_ids).should have(2).users
+        end
+      end
+
+    end
+  end
+
 end
